@@ -1,10 +1,13 @@
 package ruby;
 
+import util.Time;
+
 import javax.swing.JFrame;
 
 public class Window extends JFrame implements Runnable {
 
     private static Window window = null;
+    private boolean isRunning = true;
 
     public Window() {
         this.setSize(1280, 720);
@@ -27,9 +30,24 @@ public class Window extends JFrame implements Runnable {
         return Window.window;
     }
 
+    public void update(double dt){
+        System.out.println(dt);
+    }
+
     @Override
     public void run() {
+        double lastFrameTime = 0.0;
+        try{
+            while(isRunning) {
+                double time = Time.getTime();
+                double deltaTime = time - lastFrameTime;
+                lastFrameTime = time;
 
+                update(time);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }
 
